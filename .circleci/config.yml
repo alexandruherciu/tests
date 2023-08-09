@@ -14,6 +14,7 @@ workflows:
                 - circleci
           auth:
             - aws-cli/setup:
+              region: "us-west-2"
               aws_access_key_id: PREPROD_AWS_ACCESS_KEY_ID
               aws_secret_access_key: PREPROD_AWS_SECRET_ACCESS_KEY
           dockerfile: Dockerfile
