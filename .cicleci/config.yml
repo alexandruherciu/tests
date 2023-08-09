@@ -11,7 +11,7 @@ workflows:
             branches:
               only:
                 - circleci
-          context: aws-dev
+          context: aws-dev-test
           create-repo: true
           dockerfile: Dockerfile
           path: .
