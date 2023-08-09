@@ -23,4 +23,5 @@ workflows:
           region: "$PREPROD_AWS_REGION"
           repo: vams-base
           push_image: true
-          tag: latest,"$CIRCLE_SHA1"
+          tag: latest
+          #,"$CIRCLE_SHA1"
