@@ -11,9 +11,12 @@ workflows:
             branches:
               only:
                 - circleci
-          context: aws-dev-test
+          auth:
+              - aws-cli/setup:
+                  aws_access_key_id: PREPROD_AWS_ACCESS_KEY_ID
+                  aws_secret_access_key: PREPROD_AWS_SECRET_ACCESS_KEY
           create-repo: true
           dockerfile: Dockerfile
           path: .
-          repo: circleci-ecr-demo
+          repo: vams-base
           tag: "$CIRCLE_SHA1"
