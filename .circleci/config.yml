@@ -1,11 +1,12 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.1.3
-
-workflows:
-  build_and_push_image:
-    jobs:
+  aws-cli: circleci/aws-cli@4.0
+  aws-ecr: circleci/aws-ecr@9.0
+  
+jobs:
+  build-docker-image:
+    steps:
       - aws-ecr/build-and-push-image:
           filters:
             branches:
@@ -19,4 +20,6 @@ workflows:
           dockerfile: Dockerfile
           path: .
           repo: vams-base
-          tag: "$CIRCLE_SHA1"
+        tag: "$CIRCLE_SHA1"
+# workflows: null
+  # build_and_push_image:
