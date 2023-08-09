@@ -22,4 +22,5 @@ workflows:
           account_id: "$PREPROD_AWS_ACCOUNT_ID"
           region: "$PREPROD_AWS_REGION"
           repo: vams-base
-          tag: "$CIRCLE_SHA1"
+          push_image: true
+          tag: latest,"$CIRCLE_SHA1"
