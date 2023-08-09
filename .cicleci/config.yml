@@ -7,6 +7,10 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
+          filters:
+            branches:
+              only:
+                - circleci
           context: aws-dev
           create-repo: true
           dockerfile: Dockerfile
