@@ -29,5 +29,5 @@ workflows:
           # executors: base
           extra_build_args: '--compress'
           no_output_timeout: 20m
-          tag: latest
+          # tag: latest
           #"$CIRCLE_SHA1"
