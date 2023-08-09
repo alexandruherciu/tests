@@ -20,6 +20,6 @@ workflows:
           dockerfile: Dockerfile
           path: .
           account_id: PREPROD_AWS_ACCOUNT_ID
-          region: PREPROD_AWS_REGION
+          region: "$PREPROD_AWS_REGION"
           repo: vams-base
           tag: "$CIRCLE_SHA1"
