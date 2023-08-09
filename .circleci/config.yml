@@ -16,7 +16,6 @@ workflows:
             - aws-cli/setup:
               aws_access_key_id: PREPROD_AWS_ACCESS_KEY_ID
               aws_secret_access_key: PREPROD_AWS_SECRET_ACCESS_KEY
-          create-repo: true
           dockerfile: Dockerfile
           path: .
           repo: vams-base
