@@ -23,5 +23,8 @@ workflows:
           region: "$PREPROD_AWS_REGION"
           repo: vams-base
           push_image: true
-          tag: latest
+          executors: base
+          extra_build_args: '--compress'
+          no_output_timeout: 20m
+          tag: test
           #,"$CIRCLE_SHA1"
