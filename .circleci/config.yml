@@ -47,7 +47,7 @@ jobs:
       - run:
           name: "Get VAMS"
           command: |
-            git clone https://github.com/awslabs/visual-asset-management-system.git
+            git clone https://github.com/awslabs/visual-asset-management-system.git .
             ls -lah
   deploy:
     docker:
