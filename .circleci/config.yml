@@ -71,7 +71,7 @@ workflows:
               branches:
                 only:
                   - circleci
-      - build:
+      - install_vams:
           filters:
             tags:
               only: /^\d{4}\.\d+$/
