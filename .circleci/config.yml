@@ -1,6 +1,30 @@
 version: 2.1
+
+
+orbs:
+  aws-cli: circleci/aws-cli@4.0
+  aws-ecr: circleci/aws-ecr@9.0
+
+
 jobs:
-  build:
+  docker-build-and-push:
+    steps:
+      - aws-ecr/build_and_push_image:
+          executor: 
+            auth:
+              - aws-cli/setup:
+                  aws_access_key_id: AWS_ACCESS_KEY_ID
+                  aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+            dockerfile: Dockerfile
+            path: .
+            account_id: "$AWS_ACCOUNT_ID"
+            region: "eu-central-1"
+            repo: vams-base
+            push_image: true
+            extra_build_args: '--compress'
+            no_output_timeout: 20m
+            tag: "$CIRCLE_SHA1"
+  install_vams:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
         aws_auth:
@@ -41,6 +65,11 @@ jobs:
 workflows:
   main:
     jobs:
+      - docker-build-and-push:
+            filters:
+              branches:
+                only:
+                  - circleci
       - build:
           filters:
             tags:
