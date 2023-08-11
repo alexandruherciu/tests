@@ -9,7 +9,7 @@ jobs:
     steps:
       - run:
           name: "Every Day Tests"
-          command: "testing...."
+          command: "ls -lah"
       - run:
           name: "Deploy to Staging Infrastructure"
           command: "something something darkside.... cli"
@@ -22,7 +22,7 @@ jobs:
     steps:
       - run:
           name: "Full Test Suite"
-          command: "testing...."
+          command: "ls -lah"
       - run:
           name: "Deploy to Production Infrastructure"
           command: "something something darkside.... cli"
