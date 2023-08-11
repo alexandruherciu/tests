@@ -1,0 +1,125 @@
+version: 2.1
+
+
+orbs:
+  aws-cli: circleci/aws-cli@4.0
+  aws-ecr: circleci/aws-ecr@9.0
+
+
+jobs:
+  docker-build-and-push:
+    executor:
+      name: aws-ecr/default
+    steps:
+      - aws-ecr/build_and_push_image:
+            auth:
+              - aws-cli/setup:
+                  aws_access_key_id: AWS_ACCESS_KEY_ID
+                  aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+            dockerfile: Dockerfile
+            path: .
+            account_id: "$AWS_ACCOUNT_ID"
+            region: "eu-central-1"
+            repo: vams-base
+            push_image: false
+            extra_build_args: '--compress'
+            no_output_timeout: 20m
+            tag: latest #,"$CIRCLE_SHA1"
+      # - run:
+      #     command: >
+      #       set -x
+
+      #       docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b ping -V
+
+      #       status=$(echo "$?")
+
+      #       if [ "${status}" != "0" ]; then exit 1; else exit 0; fi
+
+      #       set +x
+      #     name: Tests for docker image
+      - aws-ecr/push_image:
+          region: "eu-central-1"
+          repo: vams-base
+          tag: latest
+  install_vams:
+    # docker:
+    #   - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:latest
+    #     aws_auth:
+    #       aws_access_key_id: $AWS_ACCESS_KEY_ID
+    #       aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    machine: true
+    environment:
+      AWS_REGION: eu-central-1
+      STACK_NAME: test-snd
+      ADMIN_EMAIL: sandu@opsguru.io
+    steps:
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+      - run:
+          name: "AWS ECR Login"
+          command: |
+            aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 456905064851.dkr.ecr.eu-central-1.amazonaws.com
+      - run:
+          name: "Start setup image"
+          command: >
+            set -x
+
+            docker run -e AWS_REGION='eu-central-1' -e STACK_NAME='test-snd' -e ADMIN_EMAIL='sandu@opsguru.io' 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:latest env
+
+            status=$(echo "$?")
+            
+            if [ "${status}" != "0" ]; then exit 1; else exit 0; fi
+            
+            set +x
+      - run:
+          name: "Show env variables"
+          command: "env"
+      # - run:
+      #     name: "Current folder"
+      #     command: "pwd"
+      # - run:
+      #     name: "List /tmp"
+      #     command: "ls -lah /tmp"
+      # - run:
+      #     name: "Get VAMS"
+      #     command: |
+      #       git clone https://github.com/awslabs/visual-asset-management-system.git .
+      #       ls -lah
+      #       cd ./web && nvm use
+  deploy:
+    docker:
+      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
+        aws_auth:
+          aws_access_key_id: $AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    steps:
+      - run:
+          name: "Full Test Suite"
+          command: "ls -lah"
+      - run:
+          name: "Deploy to Production Infrastructure"
+          command: "cat /etc/*release"
+
+workflows:
+  main:
+    jobs:
+      - docker-build-and-push:
+            filters:
+              branches:
+                only:
+                  - circleci
+      - install_vams:
+          requires:
+            - docker-build-and-push
+          filters:
+            tags:
+              only: /^\d{4}\.\d+$/
+      - deploy:
+          requires:
+            - install_vams
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d{4}\.\d+$/

@@ -5,7 +5,8 @@ RUN apk update && apk add --update --no-cache \
     curl \
     nodejs \
     npm \
-    yarn
+    yarn \
+    git
 
 # AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -23,6 +24,7 @@ RUN npm install -g aws-cdk
 
 # Mount local dir with docker run -v .:/vams ...
 WORKDIR /vams
+RUN git clone https://github.com/awslabs/visual-asset-management-system.git /vams
 COPY ./deploy-vams.sh /tmp/
 
 ENTRYPOINT ["/tmp/deploy-vams.sh"]
