@@ -8,9 +8,10 @@ orbs:
 
 jobs:
   docker-build-and-push:
+    executor:
+      name: aws-ecr/default
     steps:
       - aws-ecr/build_and_push_image:
-          executor: 
             auth:
               - aws-cli/setup:
                   aws_access_key_id: AWS_ACCESS_KEY_ID
