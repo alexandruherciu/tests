@@ -59,16 +59,16 @@ jobs:
       - run:
           name: "AWS ECR Login"
           command: |
-            aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 456905064851.dkr.ecr.eu-central-1.amazonaws.com \ 
-            -e AWS_REGION='eu-central-1' \
-            -e STACK_NAME='test-snd' \
-            -e ADMIN_EMAIL='sandu@opsguru.io'
+            aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 456905064851.dkr.ecr.eu-central-1.amazonaws.com
       - run:
           name: "Start setup image"
           command: >
             set -x
 
-            docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:latest
+            docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:latest \ 
+            -e AWS_REGION='eu-central-1' \
+            -e STACK_NAME='test-snd' \
+            -e ADMIN_EMAIL='sandu@opsguru.io'
 
             status=$(echo "$?")
             
