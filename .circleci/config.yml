@@ -31,6 +31,10 @@ jobs:
         aws_auth:
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    environment:
+      AWS_REGION: eu-central-1
+      STACK_NAME: test-snd
+      ADMIN_EMAIL: sandu@opsguru.io
     steps:
       - run:
           name: "Every Day Tests"
