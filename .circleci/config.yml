@@ -42,8 +42,8 @@ jobs:
           name: "Current folder"
           command: "pwd"
       - run:
-          name: "List root"
-          command: "ls -lah /"
+          name: "List /tmp"
+          command: "ls -lah /tmp"
       - run:
           name: "Get VAMS"
           command: |
