@@ -57,9 +57,13 @@ jobs:
           name: "Start setup image"
           command: >
             set -x
+
             docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
+
             status=$(echo "$?")
+            
             if [ "${status}" != "0" ]; then exit 1; else exit 0; fi
+            
             set +x
       - run:
           name: "Show env variables"
