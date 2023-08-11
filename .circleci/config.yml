@@ -36,8 +36,8 @@ jobs:
           name: "Every Day Tests"
           command: "ls -lah"
       - run:
-          name: "Check image release"
-          command: "cat /etc/*release"
+          name: "Show env variables"
+          command: "env"
       - run:
           name: "Current folder"
           command: "pwd"
