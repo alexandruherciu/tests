@@ -49,6 +49,7 @@ jobs:
           command: |
             git clone https://github.com/awslabs/visual-asset-management-system.git .
             ls -lah
+            cd ./web && nvm use
   deploy:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:670da5fed641329e7b1e607dfd5c129d65b0f804
@@ -85,40 +86,3 @@ workflows:
               ignore: /.*/
             tags:
               only: /^\d{4}\.\d+$/
-
-######
-# version: 2.1
-
-# orbs:
-#   aws-cli: circleci/aws-cli@4.0
-#   aws-ecr: circleci/aws-ecr@9.0
-
-# workflows:
-#   build_and_push_image:
-#     jobs:
-#       - aws-ecr/build_and_push_image:
-#           filters:
-#             branches:
-#               only:
-#                 - circleci
-#           auth:
-#             - aws-cli/setup:
-#                 # aws_access_key_id: PREPROD_AWS_ACCESS_KEY_ID
-#                 aws_access_key_id: AWS_ACCESS_KEY_ID
-#                 aws_secret_access_key: AWS_SECRET_ACCESS_KEY
-#                 # aws_secret_access_key: PREPROD_AWS_SECRET_ACCESS_KEY
-#                 # region: PREPROD_AWS_REGION
-#           dockerfile: Dockerfile
-#           path: .
-#           # account_id: "338371209378"
-#           # account_id: "$PREPROD_AWS_ACCOUNT_ID"
-#           account_id: "$AWS_ACCOUNT_ID"
-#           region: "eu-central-1"
-#           # region: "us-west-2"
-#           # region: "$PREPROD_AWS_REGION"
-#           repo: vams-base
-#           push_image: true
-#           # executors: base
-#           extra_build_args: '--compress'
-#           no_output_timeout: 20m
-#           tag: "$CIRCLE_SHA1"
