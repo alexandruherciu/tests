@@ -24,7 +24,7 @@ jobs:
             push_image: true
             extra_build_args: '--compress'
             no_output_timeout: 20m
-            tag: "$CIRCLE_SHA1"
+            tag: latest,"$CIRCLE_SHA1"
       # - run:
       #     command: >
       #       set -x
@@ -37,10 +37,10 @@ jobs:
 
       #       set +x
       #     name: Tests for docker image
-      - aws-ecr/push_image:
-          region: "eu-central-1"
-          repo: vams-base
-          tag: latest
+      # - aws-ecr/push_image:
+      #     region: "eu-central-1"
+      #     repo: vams-base
+      #     tag: latest
   install_vams:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
