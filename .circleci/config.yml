@@ -57,9 +57,9 @@ jobs:
           command: >
             set -x
             docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
-      # - run:
-      #     name: "Show env variables"
-      #     command: "env"
+      - run:
+          name: "Show env variables"
+          command: "env"
       # - run:
       #     name: "Current folder"
       #     command: "pwd"
