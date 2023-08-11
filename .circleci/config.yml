@@ -1,4 +1,50 @@
 version: 2.1
+jobs:
+  build:
+    docker:
+      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
+        aws_auth:
+          aws_access_key_id: $AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    steps:
+      - run:
+          name: "Every Day Tests"
+          command: "testing...."
+      - run:
+          name: "Deploy to Staging Infrastructure"
+          command: "something something darkside.... cli"
+  deploy:
+    docker:
+      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
+        aws_auth:
+          aws_access_key_id: $AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    steps:
+      - run:
+          name: "Full Test Suite"
+          command: "testing...."
+      - run:
+          name: "Deploy to Production Infrastructure"
+          command: "something something darkside.... cli"
+
+workflows:
+  main:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^\d{4}\.\d+$/
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d{4}\.\d+$/
+
+######
+version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@4.0
