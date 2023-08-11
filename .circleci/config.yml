@@ -11,11 +11,14 @@ jobs:
           name: "Every Day Tests"
           command: "ls -lah"
       - run:
-          name: "Deploy to Staging Infrastructure"
+          name: "Check image release"
           command: "cat /etc/*release"
       - run:
-          name: "Deploy to Staging Infrastructure"
+          name: "Current folder"
           command: "pwd"
+      - run:
+          name: "list root"
+          command: "ls -lah /"
   deploy:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
