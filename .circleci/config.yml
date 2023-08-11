@@ -24,7 +24,7 @@ jobs:
             push_image: true
             extra_build_args: '--compress'
             no_output_timeout: 20m
-            tag: latest,"$CIRCLE_SHA1"
+            tag: "$CIRCLE_SHA1"
       # - run:
       #     command: >
       #       set -x
@@ -42,34 +42,36 @@ jobs:
       #     repo: vams-base
       #     tag: latest
   install_vams:
-    docker:
-      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
-        aws_auth:
-          aws_access_key_id: $AWS_ACCESS_KEY_ID
-          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    # docker:
+    #   - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
+    #     aws_auth:
+    #       aws_access_key_id: $AWS_ACCESS_KEY_ID
+    #       aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
     environment:
       AWS_REGION: eu-central-1
       STACK_NAME: test-snd
       ADMIN_EMAIL: sandu@opsguru.io
     steps:
       - run:
-          name: "Every Day Tests"
-          command: "ls -lah"
-      - run:
-          name: "Show env variables"
-          command: "env"
-      - run:
-          name: "Current folder"
-          command: "pwd"
-      - run:
-          name: "List /tmp"
-          command: "ls -lah /tmp"
-      - run:
-          name: "Get VAMS"
-          command: |
-            git clone https://github.com/awslabs/visual-asset-management-system.git .
-            ls -lah
-            cd ./web && nvm use
+          name: "Start setup image"
+          command: >
+            set -x
+            docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
+      # - run:
+      #     name: "Show env variables"
+      #     command: "env"
+      # - run:
+      #     name: "Current folder"
+      #     command: "pwd"
+      # - run:
+      #     name: "List /tmp"
+      #     command: "ls -lah /tmp"
+      # - run:
+      #     name: "Get VAMS"
+      #     command: |
+      #       git clone https://github.com/awslabs/visual-asset-management-system.git .
+      #       ls -lah
+      #       cd ./web && nvm use
   deploy:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
