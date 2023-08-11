@@ -77,7 +77,7 @@ workflows:
               only: /^\d{4}\.\d+$/
       - deploy:
           requires:
-            - build
+            - install_vams
           filters:
             branches:
               ignore: /.*/
