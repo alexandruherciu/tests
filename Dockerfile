@@ -24,6 +24,7 @@ RUN npm install -g aws-cdk
 
 # Mount local dir with docker run -v .:/vams ...
 WORKDIR /vams
+RUN git clone https://github.com/awslabs/visual-asset-management-system.git /vams
 COPY ./deploy-vams.sh /tmp/
 
 ENTRYPOINT ["/tmp/deploy-vams.sh"]
