@@ -24,7 +24,7 @@ jobs:
             push_image: false
             extra_build_args: '--compress'
             no_output_timeout: 20m
-            tag: latest,"$CIRCLE_SHA1"
+            tag: latest #,"$CIRCLE_SHA1"
       # - run:
       #     command: >
       #       set -x
