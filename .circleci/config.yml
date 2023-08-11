@@ -27,7 +27,7 @@ jobs:
             tag: "$CIRCLE_SHA1"
   install_vams:
     docker:
-      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
+      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:82eab70431c4632cd9984e0735950c3f50647c83
         aws_auth:
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
@@ -51,7 +51,7 @@ jobs:
             ls -lah
   deploy:
     docker:
-      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
+      - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:82eab70431c4632cd9984e0735950c3f50647c83
         aws_auth:
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
@@ -72,6 +72,8 @@ workflows:
                 only:
                   - circleci
       - install_vams:
+          requires:
+            - docker-build-and-push
           filters:
             tags:
               only: /^\d{4}\.\d+$/
