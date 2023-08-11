@@ -5,7 +5,8 @@ RUN apk update && apk add --update --no-cache \
     curl \
     nodejs \
     npm \
-    yarn
+    yarn \
+    git
 
 # AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
