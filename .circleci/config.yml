@@ -12,7 +12,7 @@ jobs:
           command: "ls -lah"
       - run:
           name: "Deploy to Staging Infrastructure"
-          command: "something something darkside.... cli"
+          command: "cat /etc/*release"
   deploy:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
@@ -25,7 +25,7 @@ jobs:
           command: "ls -lah"
       - run:
           name: "Deploy to Production Infrastructure"
-          command: "something something darkside.... cli"
+          command: "cat /etc/*release"
 
 workflows:
   main:
