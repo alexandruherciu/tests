@@ -20,9 +20,10 @@ jobs:
           name: "List root"
           command: "ls -lah /"
       - run:
-          name: "List vams"
-          command: "ls -lah /vams"
-
+          name: "Get VAMS"
+          command: |
+            git clone https://github.com/awslabs/visual-asset-management-system.git
+            ls -lah
   deploy:
     docker:
       - image: 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:e60863671f75fda2d0f1cce33d845d3516847ada
