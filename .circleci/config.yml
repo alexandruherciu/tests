@@ -53,12 +53,15 @@ jobs:
       STACK_NAME: test-snd
       ADMIN_EMAIL: sandu@opsguru.io
     steps:
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
       - run:
           name: "Start setup image"
           command: >
             set -x
 
-            docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:2eaaba23fb53e7651c59cc2ee1e12c2501f8539b
+            docker run 456905064851.dkr.ecr.eu-central-1.amazonaws.com/vams-base:latest
 
             status=$(echo "$?")
             
